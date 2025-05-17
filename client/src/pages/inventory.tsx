@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { getAuthState } from "@/lib/auth";
+import { getAuthState, getAuthHeader } from "@/lib/auth";
 import { apiRequest } from "@/lib/queryClient";
 import { ProductWithInventory } from "@shared/schema";
 import { useLocation, useRoute } from "wouter";
@@ -105,13 +105,23 @@ export default function Inventory() {
   // Fetch products
   const { data: products, isLoading } = useQuery<ProductWithInventory[]>({
     queryKey: ['/api/products'],
-    queryFn: () => fetch('/api/products?withInventory=true').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/products?withInventory=true', {
+        headers: authHeaders
+      }).then(res => res.json());
+    }
   });
 
   // Fetch categories for dropdown
   const { data: categoriesData } = useQuery({
     queryKey: ['/api/categories'],
-    queryFn: () => fetch('/api/categories').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/categories', {
+        headers: authHeaders
+      }).then(res => res.json());
+    }
   });
   // Ensure categories is always an array
   const categories = Array.isArray(categoriesData) ? categoriesData : [];
@@ -119,7 +129,12 @@ export default function Inventory() {
   // Fetch suppliers for dropdown
   const { data: suppliersData } = useQuery({
     queryKey: ['/api/suppliers'],
-    queryFn: () => fetch('/api/suppliers').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/suppliers', {
+        headers: authHeaders
+      }).then(res => res.json());
+    }
   });
   // Ensure suppliers is always an array
   const suppliers = Array.isArray(suppliersData) ? suppliersData : [];
@@ -127,7 +142,12 @@ export default function Inventory() {
   // Fetch storage areas for dropdown
   const { data: storageAreasData } = useQuery({
     queryKey: ['/api/storage-areas'],
-    queryFn: () => fetch('/api/storage-areas').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/storage-areas', {
+        headers: authHeaders
+      }).then(res => res.json());
+    }
   });
   // Ensure storageAreas is always an array
   const storageAreas = Array.isArray(storageAreasData) ? storageAreasData : [];
