@@ -288,10 +288,10 @@ export default function Inventory() {
   };
 
   // Filter products by search query
-  const filteredProducts = products?.filter(product => 
+  const filteredProducts = Array.isArray(products) ? products.filter(product => 
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.sku.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ) : [];
 
   // Check if a product has low stock
   const isLowStock = (product: ProductWithInventory) => {
