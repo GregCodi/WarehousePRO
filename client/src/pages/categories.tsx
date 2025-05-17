@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { getAuthState } from "@/lib/auth";
+import { getAuthState, getAuthHeader } from "@/lib/auth";
 
 import { 
   Table, 
@@ -65,7 +65,12 @@ export default function Categories() {
   // Fetch categories
   const { data: categories, isLoading } = useQuery({
     queryKey: ['/api/categories'],
-    queryFn: () => fetch('/api/categories').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/categories', {
+        headers: authHeaders
+      }).then(res => res.json());
+    },
   });
 
   // Create category mutation
