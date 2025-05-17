@@ -109,22 +109,28 @@ export default function Inventory() {
   });
 
   // Fetch categories for dropdown
-  const { data: categories } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['/api/categories'],
     queryFn: () => fetch('/api/categories').then(res => res.json()),
   });
+  // Ensure categories is always an array
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
 
   // Fetch suppliers for dropdown
-  const { data: suppliers } = useQuery({
+  const { data: suppliersData } = useQuery({
     queryKey: ['/api/suppliers'],
     queryFn: () => fetch('/api/suppliers').then(res => res.json()),
   });
+  // Ensure suppliers is always an array
+  const suppliers = Array.isArray(suppliersData) ? suppliersData : [];
 
   // Fetch storage areas for dropdown
-  const { data: storageAreas } = useQuery({
+  const { data: storageAreasData } = useQuery({
     queryKey: ['/api/storage-areas'],
     queryFn: () => fetch('/api/storage-areas').then(res => res.json()),
   });
+  // Ensure storageAreas is always an array
+  const storageAreas = Array.isArray(storageAreasData) ? storageAreasData : [];
 
   // Create product mutation
   const createProduct = useMutation({
