@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { getAuthState } from "@/lib/auth";
+import { getAuthState, getAuthHeader } from "@/lib/auth";
 
 import { 
   Table, 
@@ -68,7 +68,12 @@ export default function Suppliers() {
   // Fetch suppliers
   const { data: suppliers, isLoading } = useQuery({
     queryKey: ['/api/suppliers'],
-    queryFn: () => fetch('/api/suppliers').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/suppliers', {
+        headers: authHeaders
+      }).then(res => res.json());
+    },
   });
 
   // Create supplier mutation
