@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { getAuthState } from "@/lib/auth";
+import { getAuthState, getAuthHeader } from "@/lib/auth";
 import { MovementWithDetails, movementStatus } from "@shared/schema";
 import { format } from "date-fns";
 import { useRoute } from "wouter";
@@ -87,19 +87,34 @@ export default function Movements() {
   // Fetch movements
   const { data: movements, isLoading } = useQuery<MovementWithDetails[]>({
     queryKey: ['/api/dashboard/recent-movements', 100],
-    queryFn: () => fetch('/api/dashboard/recent-movements?limit=100').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/dashboard/recent-movements?limit=100', {
+        headers: authHeaders
+      }).then(res => res.json());
+    },
   });
 
   // Fetch products for dropdown
   const { data: products } = useQuery({
     queryKey: ['/api/products'],
-    queryFn: () => fetch('/api/products').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/products', {
+        headers: authHeaders
+      }).then(res => res.json());
+    },
   });
 
   // Fetch storage areas for dropdown
   const { data: storageAreas } = useQuery({
     queryKey: ['/api/storage-areas'],
-    queryFn: () => fetch('/api/storage-areas').then(res => res.json()),
+    queryFn: () => {
+      const authHeaders = getAuthHeader();
+      return fetch('/api/storage-areas', {
+        headers: authHeaders
+      }).then(res => res.json());
+    },
   });
 
   // Create movement mutation
