@@ -95,7 +95,7 @@ export default function RecentMovements() {
                 movements.map((movement) => (
                   <TableRow key={movement.id} className="hover:bg-muted/50">
                     <TableCell className="font-medium">
-                      {movement.product.name}
+                      {movement.product?.name || 'Unknown Product'}
                     </TableCell>
                     <TableCell>{movement.fromArea?.name || 'N/A'}</TableCell>
                     <TableCell>{movement.toArea?.name || 'N/A'}</TableCell>

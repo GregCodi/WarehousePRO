@@ -262,8 +262,8 @@ export default function Inventory() {
       sku: product.sku,
       name: product.name,
       description: product.description || "",
-      categoryId: product.categoryId,
-      supplierId: product.supplierId,
+      categoryId: product.categoryId !== null ? product.categoryId : undefined,
+      supplierId: product.supplierId !== null ? product.supplierId : undefined,
       minStockLevel: product.minStockLevel,
     });
     setIsEditModalOpen(true);
