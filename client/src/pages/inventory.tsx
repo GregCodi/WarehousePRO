@@ -813,7 +813,7 @@ export default function Inventory() {
                             <FormLabel>Storage Area*</FormLabel>
                             <Select 
                               onValueChange={field.onChange} 
-                              value={field.value.toString()}
+                              value={field.value ? field.value.toString() : ''}
                             >
                               <FormControl>
                                 <SelectTrigger>
